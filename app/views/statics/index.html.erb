@@ -1,0 +1,34 @@
+<h1>Variants</h1>
+
+<p>Seems that PRJNA186949 is the same data as 1000 genomes</p>
+
+<pre>
+
+bundle install
+bundle exec rake db:create
+bundle exec rake db:migrate
+
+
+#	Development
+mysql -u root hkle_development -e 'TRUNCATE variants'
+
+mysql -u root --local-infile hkle_development -e "
+  LOAD DATA LOCAL INFILE 'variants.csv'
+  INTO TABLE variants FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+  (project,hkle,quality,modification,chromosome,position,direction,prepost,value,subject)"
+
+
+
+#	Or Production
+mysql -u root -p hkle_production -e 'TRUNCATE variants'
+
+mysql -u root -p --local-infile hkle_production -e "
+  LOAD DATA LOCAL INFILE 'variants.csv'
+  INTO TABLE variants FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+  (project,hkle,quality,modification,chromosome,position,direction,prepost,value,subject)"
+
+</pre>
+
+<%= link_to 'Search the results', variants_path %>
+
+
