@@ -17,6 +17,21 @@ mysql -u root --local-infile hkle_development -e "
   INTO TABLE variants FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
   (project,hkle,quality,modification,chromosome,position,direction,prepost,value,subject)"
 
+mod is a keyword
+desc is a keyword (descend) so need to preface it with table name or backtick quote it.
+
+mysql -u root hkle_development -e 'UPDATE variants SET variants.desc = hkle+":"quality+":"+direction+":"+prepost+":"+value'
+mysql -u root hkle_development -e 'UPDATE variants SET variants.desc = CONCAT(":",hkle,quality,direction,prepost,value)'
+
+mysql -u root hkle_development -e 'UPDATE variants SET variants.desc = CONCAT_WS(":",hkle,quality,CASE modification WHEN "paired_insertion_points" THEN "pip" WHEN "unpaired_insertion_points" THEN "uip" WHEN "paired_overlappers" THEN "po" WHEN "unpaired_overlappers" THEN "uo" END,direction,prepost,value)'
+
+mysql -u root hkle_development -e 'SELECT CONCAT_WS(":",hkle,quality,CASE modification WHEN "paired_insertion_points" THEN "pip" WHEN "unpaired_insertion_points" THEN "uip" WHEN "paired_overlappers" THEN "po" WHEN "unpaired_overlappers" THEN "uo" END,direction,prepost,value) AS desc FROM variants'
+
+
+mysql -u root hkle_development -e 'SELECT CONCAT_WS(":",hkle,quality,CASE modification WHEN "paired_insertion_points" THEN "pip" WHEN "unpaired_insertion_points" THEN "uip" WHEN "paired_overlappers" THEN "po" WHEN "unpaired_overlappers" THEN "uo" END,direction,prepost,value) AS desc FROM variants LIMIT 10'
+
+
+
 
 
 #	Or Production

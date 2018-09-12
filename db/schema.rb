@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_11_144649) do
+ActiveRecord::Schema.define(version: 2018_09_11_235017) do
 
   create_table "variants", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "project"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2018_09_11_144649) do
     t.string "subject"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "desc"
     t.index ["chromosome"], name: "index_variants_on_chromosome"
     t.index ["direction"], name: "index_variants_on_direction"
     t.index ["hkle"], name: "index_variants_on_hkle"

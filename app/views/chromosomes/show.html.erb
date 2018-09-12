@@ -87,19 +87,23 @@ td { text-align: center; }
 		</tr>
 	</thead>
 	<tbody>
+
+<%# active record takes 5 seconds and this monstrousity takes nearly 120 %>
 	<% @variants.map(&:position).uniq.sort.each do |pos| %>
 		<tr>
 			<td><%=pos%></td>
 		<% projects.each do |p| %>
 			<% project_subjects[p].each do |s| %>
 				<% vars = @variants.select{|v| v.project == p && v.subject == s && v.position == pos} %>
-				<% desc = "" %>
-				<% vars.each do |v| %>
-					<% desc += "#{v.hkle}:#{v.quality}:" %>
-					<% desc += modifications[v.modification] %>
-					<% desc += ":#{v.direction}:#{v.prepost}:#{v.value} " %>
-				<% end %>
-				<td><%= desc %></td>
+
+				<td><%= vars.collect(&:desc).join(" ") %></td>
+
+<!-- getting better, but still not good enough
+
+  Rendered chromosomes/show.html.erb within layouts/application (49530.5ms)
+Completed 200 OK in 49774ms (Views: 44051.4ms | ActiveRecord: 5710.6ms)
+-->
+
 			<% end %>
 		<% end %>
 		</tr>
